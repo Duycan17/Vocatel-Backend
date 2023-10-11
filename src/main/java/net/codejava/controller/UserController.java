@@ -1,18 +1,22 @@
-package net.codejava.user.api;
+package net.codejava.controller;
 
 import java.net.URI;
 
 import javax.validation.Valid;
 
+import net.codejava.dto.UserDTO;
+import net.codejava.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.codejava.user.User;
+import net.codejava.entity.User;
 
 @RestController
+@CrossOrigin
 public class UserApi {
 
 	@Autowired private UserService service;
