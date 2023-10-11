@@ -1,14 +1,14 @@
-package net.codejava.user.api;
+package net.codejava.service;
 
 import javax.transaction.Transactional;
 
-import net.codejava.user.Role;
+import net.codejava.entity.Role;
+import net.codejava.entity.User;
+import net.codejava.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import net.codejava.user.User;
-import net.codejava.user.UserRepository;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +27,6 @@ public class UserService {
 		String rawPassword = user.getPassword();
 		String encodedPassword = passwordEncoder.encode(rawPassword);
 		user.setPassword(encodedPassword);
-
 		return repo.save(user);
 	}
 }

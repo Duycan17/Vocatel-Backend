@@ -2,7 +2,6 @@ package net.codejava.controller;
 
 import java.net.URI;
 import java.util.List;
-
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
@@ -15,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/products")
 @CrossOrigin
-public class ProductApi {
+public class ProductController {
 
-	@Autowired private ProductRepository repo;
+	@Autowired
+	private ProductRepository repo;
 	
 	@PostMapping
 	@RolesAllowed("ROLE_EDITOR")

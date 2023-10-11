@@ -1,4 +1,5 @@
-package net.codejava.user;
+package net.codejava.entity;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

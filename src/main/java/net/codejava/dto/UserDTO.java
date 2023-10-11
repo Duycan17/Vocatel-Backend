@@ -1,4 +1,5 @@
-package net.codejava.user.api;
+package net.codejava.dto;
+
 
 public class UserDTO {
 	private Integer id;

@@ -1,4 +1,4 @@
-package net.codejava.user.api;
+package net.codejava.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
