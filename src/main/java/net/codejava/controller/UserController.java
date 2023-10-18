@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.security.Principal;
 
 
 @RestController
@@ -38,6 +39,7 @@ public class UserController {
         UserDto userDto = new UserDto(createdUser.getId(), createdUser.getEmail());
         return ResponseEntity.created(uri).body(userDto);
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {

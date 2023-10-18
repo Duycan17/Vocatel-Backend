@@ -37,12 +37,5 @@ public class Enrollment {
         this.date = new Date();
     }
 
-    public Enrollment(User user, Quiz quiz, int score) {
-        this.user = user;
-        this.quiz = quiz;
-        this.score = score;
-        this.date = new Date();
-    }
 
-    // Getters and setters
 }

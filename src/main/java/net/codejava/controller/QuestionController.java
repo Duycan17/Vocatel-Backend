@@ -9,16 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
-@RequestMapping("/quiz")
+@RequestMapping("/quiz/question")
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
     @Autowired
     private ModelMapper modelMapper;
-    @PostMapping("question")
+    @PostMapping("create")
+    @RolesAllowed("ADMIN")
     public ResponseEntity<List<Question>> saveQuestion(@RequestParam("id") Long quizId, @RequestBody QuestionDto questionDto) {
         List<Question> savedQuestions = questionService.save(questionDto, quizId);
         if (savedQuestions != null && !savedQuestions.isEmpty()) {
