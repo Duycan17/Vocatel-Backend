@@ -39,13 +39,10 @@ public class User implements UserDetails {
     )
     private Set<Vocabulary> vocabularies = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "enrollment",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "quiz_id")
-    )
-    private Set<Quiz> quizes = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "user")
+    private Set<Quiz> quizes;
 
     @ManyToMany
     @JoinTable(

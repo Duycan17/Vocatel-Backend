@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
@@ -25,6 +26,8 @@ public class Quiz {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
+    @OneToMany(mappedBy = "quiz")
+    private Set<User> users;
     public Quiz() {
         this.creationDate = new Date();
     }
