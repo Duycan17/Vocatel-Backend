@@ -15,6 +15,4 @@ public class Vocatel {
 	public static void main(String[] args) {
 		SpringApplication.run(Vocatel.class, args);
 	}
-
-
 }
