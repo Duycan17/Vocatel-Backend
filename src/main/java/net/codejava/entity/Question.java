@@ -28,6 +28,6 @@ public class Question {
     @Column(nullable = false)
     private String option4;
     @ManyToOne
-    @JoinColumn(name = "quiz_id")
+    @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quizId;
 }

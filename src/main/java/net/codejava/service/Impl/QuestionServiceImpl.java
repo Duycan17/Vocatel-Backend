@@ -9,11 +9,13 @@ import net.codejava.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
@@ -23,18 +25,20 @@ public class QuestionServiceImpl implements QuestionService {
     private QuizRepository quizRepository;
 
     @Override
-    public List<Question> save(QuestionDto questionDto) {
+    public List<Question> save(QuestionDto questionDto, Long quizId) {
         List<String> questions = questionDto.getQuestions();
         List<String> correctAnswers = questionDto.getCorrectAnswers();
         List<String> option1 = questionDto.getOption1();
         List<String> option2 = questionDto.getOption2();
         List<String> option3 = questionDto.getOption3();
         List<String> option4 = questionDto.getOption4();
-        Long quizId = questionDto.getQuizId();
         Optional<Quiz> quiz = quizRepository.findById(quizId);
         Quiz quizCreated = null;
         if (quiz.isPresent()) {
             quizCreated = quiz.get();
+        }
+        else {
+            return null;
         }
         List<Question> newQuestions = new ArrayList<>();
         for (int i = 0; i < questions.size(); i++) {

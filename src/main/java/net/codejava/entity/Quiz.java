@@ -27,7 +27,7 @@ public class Quiz {
     private Date creationDate;
 
     @OneToMany(mappedBy = "quiz")
-    private Set<User> users;
+    private Set<Enrollment> enrollments;
     public Quiz() {
         this.creationDate = new Date();
     }

@@ -6,6 +6,6 @@ import net.codejava.entity.Question;
 import java.util.List;
 
 public interface QuestionService {
-    List<Question> save(QuestionDto question);
+    List<Question> save(QuestionDto question, Long quizId);
 
 }

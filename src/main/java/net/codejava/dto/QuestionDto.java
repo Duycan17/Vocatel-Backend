@@ -16,5 +16,4 @@ public class QuestionDto {
     private List<String> option2;
     private List<String> option3;
     private List<String> option4;
-    private Long quizId;
 }

@@ -21,15 +21,4 @@ public class QuizController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdQuiz);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Quiz> createQuiz(@RequestParam("id") Long quizId, @RequestBody QuestionDto questionDto) {
-        Quiz createdQuiz = quizService.createQuiz(quizDto);
-
-        // Associate the created question with the specified quiz ID
-        QuestionDto questionDto = quizDto.getQuestion();
-        questionDto.setQuizId(quizId);
-        questionService.createQuestion(questionDto);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdQuiz);
-    }
 }

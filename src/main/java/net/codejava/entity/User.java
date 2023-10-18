@@ -40,9 +40,8 @@ public class User implements UserDetails {
     private Set<Vocabulary> vocabularies = new HashSet<>();
 
 
-
     @OneToMany(mappedBy = "user")
-    private Set<Quiz> quizes;
+    private Set<Enrollment> enrollments;
 
     @ManyToMany
     @JoinTable(
