@@ -18,7 +18,6 @@ public class QuizController {
     private QuizService quizService;
 
     @PostMapping("/create")
-    @RolesAllowed("ADMIN")
     public ResponseEntity<Quiz> createQuiz(@RequestBody QuizDto quizDto) {
         Quiz createdQuiz = quizService.createQuiz(quizDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdQuiz);

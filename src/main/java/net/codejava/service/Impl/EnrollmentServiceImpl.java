@@ -35,6 +35,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             Quiz quiz = quizOptional.get();
             enrollment.setQuiz(quiz);
         }
+        enrollment.setScore(enrollmentDto.getScore());
         return enrollmentRepository.save(enrollment);
     }
 }

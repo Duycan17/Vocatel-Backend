@@ -39,9 +39,8 @@ public class User implements UserDetails {
     )
     private Set<Vocabulary> vocabularies = new HashSet<>();
 
-
     @OneToMany(mappedBy = "user")
-    private Set<Enrollment> enrollments;
+    private Set<Enrollment> enrollments = new HashSet<Enrollment>();
 
     @ManyToMany
     @JoinTable(
@@ -119,7 +118,8 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<Role> roles)
+    {
         this.roles = roles;
     }
 

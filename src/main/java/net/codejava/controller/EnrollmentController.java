@@ -2,46 +2,59 @@ package net.codejava.controller;
 
 import net.codejava.dto.EnrollmentDto;
 import net.codejava.entity.Enrollment;
+import net.codejava.entity.Quiz;
 import net.codejava.entity.User;
+import net.codejava.repository.QuizRepository;
 import net.codejava.repository.UserRepository;
 import net.codejava.service.EnrollmentService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/enroll")
 public class EnrollmentController {
 
-    @Autowired
-    private EnrollmentService enrollmentService;
-    @Autowired
-    private UserRepository userRepository;
+    private final EnrollmentService enrollmentService;
+    private final UserRepository userRepository;
+    private final QuizRepository quizRepository;
 
-    private Principal principal;
-    @GetMapping
-    public String getCurrentUser(HttpServletRequest request){
-        principal = request.getUserPrincipal();
-        return principal.getName();
+    @Autowired
+    public EnrollmentController(EnrollmentService enrollmentService, UserRepository userRepository, QuizRepository quizRepository) {
+        this.enrollmentService = enrollmentService;
+        this.userRepository = userRepository;
+        this.quizRepository = quizRepository;
     }
+
+    @GetMapping("/user")
+    public String getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
     @PostMapping("/create")
-    public ResponseEntity<Enrollment> createEnrollment(HttpServletRequest request, @RequestBody EnrollmentDto enrollmentDto){
-        principal = request.getUserPrincipal();
-        Optional<User> userOptional = userRepository.findByEmail(principal.getName());
-        User user = null;
-        if (userOptional.isPresent()){
-             user = userOptional.get();
-        }
+    public ResponseEntity<Enrollment> createEnrollment(Authentication authentication, @RequestBody EnrollmentDto enrollmentDto) {
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Optional<User> u = userRepository.findByEmail(email);
+        User user = u.get();
+        Optional<Quiz> q = quizRepository.findById(enrollmentDto.getQuizId());
+        Quiz quiz = q.get();
         enrollmentDto.setUserId(user.getId());
         Enrollment enrollment = enrollmentService.save(enrollmentDto);
+        Set<Enrollment> enrollmentSet = new HashSet<>();
+        enrollmentSet.add(enrollment);
+        user.setEnrollments(enrollmentSet);
+        quiz.setEnrollments(enrollmentSet);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(enrollment);
     }
 }
