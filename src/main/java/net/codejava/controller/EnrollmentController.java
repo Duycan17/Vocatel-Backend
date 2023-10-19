@@ -55,9 +55,12 @@ public class EnrollmentController {
         enrollmentList.add(enrollment);
         user.setEnrollments(enrollmentList);
         quiz.setEnrollments(enrollmentList);
+    if(enrollment!=null){
+        return ResponseEntity.status(HttpStatus.CREATED).body(enrollment);
 
-       return ResponseEntity.status(HttpStatus.CREATED).body(enrollment);
-        
+    }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
 
     }
 

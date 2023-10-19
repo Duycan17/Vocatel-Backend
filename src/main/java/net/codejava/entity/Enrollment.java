@@ -1,5 +1,6 @@
 package net.codejava.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,12 +20,14 @@ public class Enrollment {
             CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH
     })
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne(cascade = {
             CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH
     })
+    @JsonIgnore
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
     @Column(nullable = false)
