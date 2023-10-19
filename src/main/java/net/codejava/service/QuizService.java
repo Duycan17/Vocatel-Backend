@@ -7,4 +7,5 @@ public interface QuizService {
     Quiz createQuiz(QuizDto quizDto);
 
     boolean deleteQuiz(Long quizId);
+
 }

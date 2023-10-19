@@ -31,16 +31,19 @@ public class User implements UserDetails {
     @Length(min = 5, max = 64)
     private String password;
 
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH
+    })
     @JoinTable(
             name = "user_vocabulary",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "vocabulary_id")
     )
-    private Set<Vocabulary> vocabularies = new HashSet<>();
+    private Set<Vocabulary> vocabularies = new TreeSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<Enrollment> enrollments = new HashSet<Enrollment>();
+    private Set<Enrollment> enrollments ;
 
     @ManyToMany
     @JoinTable(
@@ -126,5 +129,8 @@ public class User implements UserDetails {
     public void addRole(Role role) {
         this.roles.add(role);
     }
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password);
+    }
 }

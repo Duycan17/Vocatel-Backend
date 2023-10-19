@@ -12,12 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/enroll")
@@ -41,6 +40,7 @@ public class EnrollmentController {
     }
 
     @PostMapping("/create")
+    @Transactional
     public ResponseEntity<Enrollment> createEnrollment(Authentication authentication, @RequestBody EnrollmentDto enrollmentDto) {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -49,12 +49,16 @@ public class EnrollmentController {
         Optional<Quiz> q = quizRepository.findById(enrollmentDto.getQuizId());
         Quiz quiz = q.get();
         enrollmentDto.setUserId(user.getId());
-        Enrollment enrollment = enrollmentService.save(enrollmentDto);
-        Set<Enrollment> enrollmentSet = new HashSet<>();
-        enrollmentSet.add(enrollment);
-        user.setEnrollments(enrollmentSet);
-        quiz.setEnrollments(enrollmentSet);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(enrollment);
+        Enrollment enrollment = enrollmentService.save(enrollmentDto);
+        Set<Enrollment> enrollmentList = new HashSet<>();
+        enrollmentList.add(enrollment);
+        user.setEnrollments(enrollmentList);
+        quiz.setEnrollments(enrollmentList);
+
+       return ResponseEntity.status(HttpStatus.CREATED).body(enrollment);
+        
+
     }
+
 }

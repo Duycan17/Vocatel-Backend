@@ -2,6 +2,7 @@ package net.codejava.service.Impl;
 
 import net.codejava.config.ModelMapperConfig;
 import net.codejava.dto.QuizDto;
+import net.codejava.entity.Enrollment;
 import net.codejava.entity.Quiz;
 import net.codejava.repository.QuizRepository;
 import net.codejava.service.QuizService;

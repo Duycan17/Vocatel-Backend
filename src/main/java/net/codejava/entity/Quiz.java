@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 @Entity
 @Data
@@ -26,10 +24,19 @@ public class Quiz {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    @OneToMany(mappedBy = "quiz")
-    private Set<Enrollment> enrollments = new HashSet<Enrollment>();
+    @OneToMany(mappedBy = "quiz",cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH
+    })
+    private Set<Enrollment> enrollments =new HashSet<>();
     public Quiz() {
         this.creationDate = new Date();
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, difficultyLevel, creationDate);
     }
 
 }
