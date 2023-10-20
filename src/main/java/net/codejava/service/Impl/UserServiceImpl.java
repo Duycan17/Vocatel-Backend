@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserSerivce {
         return repo.save(user);
     }
 
+
     @Override
     public User update(User user, Long id) {
         Optional<User> userToUpdate = repo.findById(id);
@@ -60,8 +61,13 @@ public class UserServiceImpl implements UserSerivce {
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
-        return repo.findByEmail(email);
+    public User findUserByEmail(String email) {
+        Optional<User> u = repo.findByEmail(email);
+        User user = null;
+        if (u.isPresent()){
+            user = u.get();
+        }
+        return user;
     }
 
 }

@@ -14,5 +14,6 @@ public interface UserSerivce {
 
     List<User> getAllUser();
 
-    Optional<User> findUserByEmail(String email);
+    User findUserByEmail(String email);
+
 }

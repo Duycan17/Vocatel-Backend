@@ -5,7 +5,10 @@ import net.codejava.dto.AuthResponse;
 import net.codejava.dto.UserDto;
 import net.codejava.entity.User;
 import net.codejava.jwt.JwtTokenUtil;
+import net.codejava.repository.UserRepository;
 import net.codejava.service.Impl.UserServiceImpl;
+import net.codejava.service.UserSerivce;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.security.Principal;
+import java.util.Optional;
 
 
 @RestController
@@ -31,6 +35,8 @@ public class UserController {
     JwtTokenUtil jwtUtil;
     @Autowired
     private UserServiceImpl service;
+    @Autowired
+    private UserSerivce userSerivce;
 
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody @Valid User user) {
@@ -39,7 +45,13 @@ public class UserController {
         UserDto userDto = new UserDto(createdUser.getId(), createdUser.getEmail());
         return ResponseEntity.created(uri).body(userDto);
     }
-
+    // Get current user is active
+    @GetMapping("/user")
+    public ResponseEntity<User> getCurrentUser(Principal principal){
+        String email = principal.getName();
+        User user = userSerivce.findUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {

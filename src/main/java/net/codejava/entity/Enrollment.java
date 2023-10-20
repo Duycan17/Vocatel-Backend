@@ -36,7 +36,6 @@ public class Enrollment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    // Constructors, getters, and setters
 
     public Enrollment() {
         this.date = new Date();

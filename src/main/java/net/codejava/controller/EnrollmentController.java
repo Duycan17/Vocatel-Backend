@@ -7,6 +7,8 @@ import net.codejava.entity.User;
 import net.codejava.repository.QuizRepository;
 import net.codejava.repository.UserRepository;
 import net.codejava.service.EnrollmentService;
+import net.codejava.service.QuizService;
+import net.codejava.service.UserSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +25,14 @@ import java.util.*;
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
-    private final UserRepository userRepository;
-    private final QuizRepository quizRepository;
+    private final UserSerivce userSerivce;
+    private final QuizService quizService;
 
     @Autowired
-    public EnrollmentController(EnrollmentService enrollmentService, UserRepository userRepository, QuizRepository quizRepository) {
+    public EnrollmentController(EnrollmentService enrollmentService, UserSerivce userSerivce, QuizService quizService) {
         this.enrollmentService = enrollmentService;
-        this.userRepository = userRepository;
-        this.quizRepository = quizRepository;
+        this.userSerivce = userSerivce;
+        this.quizService = quizService;
     }
 
     @GetMapping("/user")
@@ -44,12 +46,9 @@ public class EnrollmentController {
     public ResponseEntity<Enrollment> createEnrollment(Authentication authentication, @RequestBody EnrollmentDto enrollmentDto) {
         authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        Optional<User> u = userRepository.findByEmail(email);
-        User user = u.get();
-        Optional<Quiz> q = quizRepository.findById(enrollmentDto.getQuizId());
-        Quiz quiz = q.get();
+        User user = userSerivce.findUserByEmail(email);
+        Quiz quiz = quizService.findQuizById(enrollmentDto.getQuizId());
         enrollmentDto.setUserId(user.getId());
-
         Enrollment enrollment = enrollmentService.save(enrollmentDto);
         Set<Enrollment> enrollmentList = new HashSet<>();
         enrollmentList.add(enrollment);
@@ -57,11 +56,8 @@ public class EnrollmentController {
         quiz.setEnrollments(enrollmentList);
     if(enrollment!=null){
         return ResponseEntity.status(HttpStatus.CREATED).body(enrollment);
-
     }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
-
     }
 
 }
