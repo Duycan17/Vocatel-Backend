@@ -21,7 +21,7 @@ import javax.annotation.security.RolesAllowed;
 import java.util.*;
 
 @RestController
-@RequestMapping("/enroll")
+@RequestMapping("/quiz/enrollment")
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;
