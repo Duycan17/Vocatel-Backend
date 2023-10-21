@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class QuizDto {
     private String title;
     private String difficultyLevel;
+    private int maxTime;
 }

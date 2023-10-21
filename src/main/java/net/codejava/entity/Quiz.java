@@ -21,6 +21,9 @@ public class Quiz {
     @Column(name = "difficulty_level", nullable = false)
     private String difficultyLevel;
 
+    @Column(name = "max_time", nullable = false)
+    private int maxTime;
+
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
@@ -36,7 +39,7 @@ public class Quiz {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, difficultyLevel, creationDate);
+        return Objects.hash(id, title, difficultyLevel, maxTime, creationDate);
     }
 
 }
