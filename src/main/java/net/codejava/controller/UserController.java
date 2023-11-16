@@ -1,74 +1,10 @@
 package net.codejava.controller;
 
-import net.codejava.dto.AuthRequest;
-import net.codejava.dto.AuthResponse;
-import net.codejava.dto.UserDto;
-import net.codejava.entity.User;
-import net.codejava.jwt.JwtTokenUtil;
-import net.codejava.repository.UserRepository;
-import net.codejava.service.Impl.UserServiceImpl;
-import net.codejava.service.UserSerivce;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.net.URI;
-import java.security.Principal;
-import java.util.Optional;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin
-@RequestMapping("/auth")
+@RequestMapping("/users")
 public class UserController {
-
-    @Autowired
-    AuthenticationManager authManager;
-    @Autowired
-    JwtTokenUtil jwtUtil;
-    @Autowired
-    private UserServiceImpl service;
-    @Autowired
-    private UserSerivce userSerivce;
-
-    @PostMapping("/register")
-    public ResponseEntity<?> createUser(@RequestBody @Valid User user) {
-        User createdUser = service.save(user);
-        URI uri = URI.create("/users/" + createdUser.getId());
-        UserDto userDto = new UserDto(createdUser.getId(), createdUser.getEmail());
-        return ResponseEntity.created(uri).body(userDto);
-    }
-    // Get current user is active
-    @GetMapping("/user")
-    public ResponseEntity<User> getCurrentUser(Principal principal){
-        String email = principal.getName();
-        User user = userSerivce.findUserByEmail(email);
-        return ResponseEntity.ok(user);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
-        try {
-            Authentication authentication = authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(), request.getPassword())
-            );
-
-            User user = (User) authentication.getPrincipal();
-            String accessToken = jwtUtil.generateAccessToken(user);
-            AuthResponse response = new AuthResponse(user.getEmail(), accessToken);
-
-            return ResponseEntity.ok().body(response);
-
-        } catch (BadCredentialsException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
+        
 }

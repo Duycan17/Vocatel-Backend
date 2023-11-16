@@ -31,16 +31,8 @@ public class User implements UserDetails {
     @Length(min = 5, max = 64)
     private String password;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH
-    })
-    @JoinTable(
-            name = "user_vocabulary",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "vocabulary_id")
-    )
-    private Set<Vocabulary> vocabularies = new TreeSet<>();
+    @OneToMany(mappedBy="user")
+    private Set<Vocabulary> vocabularies;
 
     @OneToMany(mappedBy = "user")
     private Set<Enrollment> enrollments ;
