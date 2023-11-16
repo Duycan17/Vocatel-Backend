@@ -19,7 +19,7 @@ public class QuestionController {
     private QuestionService questionService;
     @Autowired
     private ModelMapper modelMapper;
-    @PostMapping("create")
+    @PostMapping()
     public ResponseEntity<List<Question>> saveQuestion(@RequestParam("id") Long quizId, @RequestBody QuestionDto questionDto) {
         List<Question> savedQuestions = questionService.save(questionDto, quizId);
         if (savedQuestions != null && !savedQuestions.isEmpty()) {

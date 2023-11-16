@@ -27,21 +27,13 @@ public class EnrollmentController {
     private final EnrollmentService enrollmentService;
     private final UserSerivce userSerivce;
     private final QuizService quizService;
-
     @Autowired
     public EnrollmentController(EnrollmentService enrollmentService, UserSerivce userSerivce, QuizService quizService) {
         this.enrollmentService = enrollmentService;
         this.userSerivce = userSerivce;
         this.quizService = quizService;
     }
-
-    @GetMapping("/user")
-    public String getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName();
-    }
-
-    @PostMapping("/create")
+    @PostMapping()
     @Transactional
     public ResponseEntity<Enrollment> createEnrollment(Authentication authentication, @RequestBody EnrollmentDto enrollmentDto) {
         authentication = SecurityContextHolder.getContext().getAuthentication();
