@@ -1,8 +1,7 @@
 package net.codejava.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,12 +14,16 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 @Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
+    private String fullname;
 
     @Column(nullable = false, length = 50, unique = true)
     @Email
@@ -29,13 +32,20 @@ public class User implements UserDetails {
 
     @Column(nullable = false, length = 64)
     @Length(min = 5, max = 64)
+    @JsonIgnore
     private String password;
 
-    @OneToMany(mappedBy="user")
+    @Column(nullable = true)
+    private String avatarUrl;
+
+    @Column(nullable = false)
+    private boolean isPro = false;
+
+    @OneToMany(mappedBy = "user")
     private Set<Vocabulary> vocabularies;
 
     @OneToMany(mappedBy = "user")
-    private Set<Enrollment> enrollments ;
+    private Set<Enrollment> enrollments;
 
     @ManyToMany
     @JoinTable(
@@ -84,6 +94,10 @@ public class User implements UserDetails {
         return authorities;
     }
 
+    public boolean getPro() {
+        return this.isPro;
+    }
+
     @Override
     public String getUsername() {
         return this.email;
@@ -113,14 +127,14 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles)
-    {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
     public void addRole(Role role) {
         this.roles.add(role);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(email, password);

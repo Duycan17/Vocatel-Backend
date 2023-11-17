@@ -6,7 +6,7 @@ import net.codejava.dto.UserDto;
 import net.codejava.entity.User;
 import net.codejava.jwt.JwtTokenUtil;
 import net.codejava.service.Impl.UserServiceImpl;
-import net.codejava.service.UserSerivce;
+import net.codejava.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ public class AuthController {
     @Autowired
     private UserServiceImpl service;
     @Autowired
-    private UserSerivce userSerivce;
+    private UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody @Valid User user) {
@@ -47,7 +47,7 @@ public class AuthController {
     @GetMapping()
     public ResponseEntity<User> getCurrentUser(Principal principal) {
         String email = principal.getName();
-        User user = userSerivce.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         return ResponseEntity.ok(user);
     }
 
@@ -61,7 +61,7 @@ public class AuthController {
 
             User user = (User) authentication.getPrincipal();
             String accessToken = jwtUtil.generateAccessToken(user);
-            AuthResponse response = new AuthResponse(user.getEmail(), accessToken);
+            AuthResponse response = new AuthResponse(user.getEmail(), accessToken, user.getRoles().toString());
 
             return ResponseEntity.ok().body(response);
 
