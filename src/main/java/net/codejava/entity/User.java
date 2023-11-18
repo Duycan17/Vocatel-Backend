@@ -30,9 +30,9 @@ public class User implements UserDetails {
     @Length(min = 5, max = 50)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false, length = 64)
     @Length(min = 5, max = 64)
-    @JsonIgnore
     private String password;
 
     @Column(nullable = true)

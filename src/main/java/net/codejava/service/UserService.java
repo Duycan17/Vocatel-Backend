@@ -1,6 +1,7 @@
 package net.codejava.service;
 
 import net.codejava.entity.User;
+import net.codejava.entity.Vocabulary;
 
 import java.security.Principal;
 import java.util.List;
@@ -19,5 +20,7 @@ public interface UserService {
     List<User> getAllUser();
 
     User findUserByEmail(String email);
+
+    List<Vocabulary> findVocabByUser(Principal principal);
 
 }

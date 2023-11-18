@@ -65,7 +65,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         http.cors();
         http.authorizeRequests()
                 .antMatchers("/auth/**", "/enroll/**").permitAll()
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
 
         http.exceptionHandling()
                 .authenticationEntryPoint(

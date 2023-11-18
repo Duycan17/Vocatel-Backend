@@ -2,6 +2,7 @@ package net.codejava.service.Impl;
 
 import net.codejava.entity.Role;
 import net.codejava.entity.User;
+import net.codejava.entity.Vocabulary;
 import net.codejava.repository.UserRepository;
 import net.codejava.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -99,6 +101,13 @@ public class UserServiceImpl implements UserService {
             user = u.get();
         }
         return user;
+    }
+
+    @Override
+    public List<Vocabulary> findVocabByUser(Principal principal) {
+        String email = principal.getName();
+        User user = this.findUserByEmail(email);
+        return user.getVocabularies().stream().collect(Collectors.toList());
     }
 
 }

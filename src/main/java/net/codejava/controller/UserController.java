@@ -40,5 +40,7 @@ public class UserController {
         List<User> users = userService.getAllUser();
         return ResponseEntity.ok(users);
     }
+
+
 }
 

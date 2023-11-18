@@ -5,6 +5,8 @@ import net.codejava.entity.Vocabulary;
 
 public interface VocabService {
     Vocabulary save(VocabDto vocabDto);
+
     Vocabulary changeStatus(Long id);
+
 
 }
