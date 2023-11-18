@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.HashSet;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/quiz/enrollment")
+@RolesAllowed({"USER", "ADMIN"})
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;

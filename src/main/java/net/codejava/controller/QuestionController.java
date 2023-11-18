@@ -14,11 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/quiz/question")
+@RolesAllowed("ADMIN")
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
     @Autowired
     private ModelMapper modelMapper;
+
     @PostMapping()
     public ResponseEntity<List<Question>> saveQuestion(@RequestParam("id") Long quizId, @RequestBody QuestionDto questionDto) {
         List<Question> savedQuestions = questionService.save(questionDto, quizId);
