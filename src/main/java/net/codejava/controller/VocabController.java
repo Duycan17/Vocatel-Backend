@@ -12,11 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/vocab")
+@RolesAllowed("USER")
 public class VocabController {
     @Autowired
     private VocabService vocabService;
@@ -51,6 +53,12 @@ public class VocabController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<Boolean> deleteVocab(@RequestParam Long id) {
+        boolean isDeleted = vocabService.deleteById(id);
+        return ResponseEntity.ok(isDeleted);
     }
 
 }

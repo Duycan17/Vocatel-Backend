@@ -8,5 +8,6 @@ public interface VocabService {
 
     Vocabulary changeStatus(Long id);
 
+    boolean deleteById(Long id);
 
 }

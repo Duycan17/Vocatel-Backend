@@ -39,4 +39,15 @@ public class VocabServiceImpl implements VocabService {
         }
         return null; // Handle the case when Vocabulary with the given id is not found
     }
+
+    @Override
+    public boolean deleteById(Long id) {
+        try {
+            vocabRepository.deleteById(id);
+            return true; // Return true if deletion is successful
+        } catch (Exception e) {
+            // Handle any exceptions or errors here
+            return false; // Return false if deletion fails
+        }
+    }
 }
