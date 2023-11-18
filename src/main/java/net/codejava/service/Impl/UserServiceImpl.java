@@ -2,18 +2,21 @@ package net.codejava.service.Impl;
 
 import net.codejava.entity.Role;
 import net.codejava.entity.User;
+import net.codejava.entity.Vocabulary;
 import net.codejava.repository.UserRepository;
-import net.codejava.service.UserSerivce;
+import net.codejava.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserSerivce {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repo;
     @Autowired
@@ -33,15 +36,45 @@ public class UserServiceImpl implements UserSerivce {
 
 
     @Override
-    public User update(User user, Long id) {
-        Optional<User> userToUpdate = repo.findById(id);
-        if (userToUpdate.isPresent()) {
-            User existingUser = userToUpdate.get();
-            existingUser.setEmail(user.getEmail());
-            existingUser.setPassword(user.getPassword());
+    public User changePassword(String oldPassword, String password, Principal principal) {
+        String email = principal.getName();
+        Optional<User> user = repo.findByEmail(email);
+        String encodedPassword = passwordEncoder.encode(password);
+
+        if (user.isPresent()) {
+            User existingUser = user.get();
+            if (!passwordEncoder.matches(oldPassword, existingUser.getPassword())) {
+                throw new NoSuchElementException("Wrong password");
+            }
+            existingUser.setPassword(encodedPassword);
             return repo.save(existingUser);
         } else {
-            throw new NoSuchElementException("User not found with id: " + id);
+            throw new NoSuchElementException("User not found with email: " + email);
+        }
+    }
+
+    @Override
+    public User changeAvatar(String url, Principal principal) {
+        String email = principal.getName();
+        Optional<User> user = repo.findByEmail(email);
+        if (user.isPresent()) {
+            User existingUser = user.get();
+            existingUser.setAvatarUrl(url);
+            return repo.save(existingUser);
+        } else {
+            throw new NoSuchElementException("User not found with email: " + email);
+        }
+    }
+
+    @Override
+    public User changePro(Long id) {
+        Optional<User> user = repo.findById(id);
+        if (user.isPresent()) {
+            User existingUser = user.get();
+            existingUser.setPro(!existingUser.getPro());
+            return repo.save(existingUser);
+        } else {
+            throw new NoSuchElementException("User not found with email: " + id);
         }
     }
 
@@ -64,10 +97,17 @@ public class UserServiceImpl implements UserSerivce {
     public User findUserByEmail(String email) {
         Optional<User> u = repo.findByEmail(email);
         User user = null;
-        if (u.isPresent()){
+        if (u.isPresent()) {
             user = u.get();
         }
         return user;
+    }
+
+    @Override
+    public List<Vocabulary> findVocabByUser(Principal principal) {
+        String email = principal.getName();
+        User user = this.findUserByEmail(email);
+        return user.getVocabularies().stream().collect(Collectors.toList());
     }
 
 }
