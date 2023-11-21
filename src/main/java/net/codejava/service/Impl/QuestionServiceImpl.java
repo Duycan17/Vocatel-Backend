@@ -1,6 +1,8 @@
 package net.codejava.service.Impl;
 
-import net.codejava.dto.QuestionDto;
+import net.codejava.dto.QuestionRequest;
+import net.codejava.dto.questionResponse.QuestionResponseDTO;
+import net.codejava.dto.questionResponse.subQuestionDto;
 import net.codejava.entity.Question;
 import net.codejava.entity.Quiz;
 import net.codejava.repository.QuestionRepository;
@@ -25,19 +27,18 @@ public class QuestionServiceImpl implements QuestionService {
     private QuizRepository quizRepository;
 
     @Override
-    public List<Question> save(QuestionDto questionDto, Long quizId) {
-        List<String> questions = questionDto.getQuestions();
-        List<String> correctAnswers = questionDto.getCorrectAnswers();
-        List<String> option1 = questionDto.getOption1();
-        List<String> option2 = questionDto.getOption2();
-        List<String> option3 = questionDto.getOption3();
-        List<String> option4 = questionDto.getOption4();
+    public List<Question> save(QuestionRequest questionRequest, Long quizId) {
+        List<String> questions = questionRequest.getQuestions();
+        List<String> correctAnswers = questionRequest.getCorrectAnswers();
+        List<String> option1 = questionRequest.getOption1();
+        List<String> option2 = questionRequest.getOption2();
+        List<String> option3 = questionRequest.getOption3();
+        List<String> option4 = questionRequest.getOption4();
         Optional<Quiz> quiz = quizRepository.findById(quizId);
         Quiz quizCreated = null;
         if (quiz.isPresent()) {
             quizCreated = quiz.get();
-        }
-        else {
+        } else {
             return null;
         }
         List<Question> newQuestions = new ArrayList<>();
@@ -53,5 +54,46 @@ public class QuestionServiceImpl implements QuestionService {
             newQuestions.add(question);
         }
         return questionRepository.saveAll(newQuestions);
+    }
+
+    @Override
+    public QuestionResponseDTO getAllQuestion(Long quizId) {
+        List<Question> temp = questionRepository.findAll();
+        for (Question index : temp) {
+            if (!index.getQuizId().getId().equals(quizId)) {
+                temp.remove(index);
+            }
+        }
+        QuestionResponseDTO questions = new QuestionResponseDTO();
+        questions.setResponseCode(0);
+        List<subQuestionDto> subQuestionDtos = null;
+        subQuestionDtos = new ArrayList<>();
+        for (Question index : temp) {
+            subQuestionDto subQuestionDto = new subQuestionDto();
+            subQuestionDto.setCategory("English");
+            subQuestionDto.setType("multiple");
+            subQuestionDto.setDifficulty("Entertainment: Music");
+            subQuestionDto.setQuestion(index.getQuestion());
+            subQuestionDto.setCorrect_answer(index.getCorrectAnswer());
+            List<String> incorrectAnswer = new ArrayList<>();
+            if (!index.getCorrectAnswer().equals(index.getOption4())) {
+                incorrectAnswer.add(index.getOption4());
+            }
+            if (!index.getCorrectAnswer().equals(index.getOption1())) {
+                incorrectAnswer.add(index.getOption1());
+            }
+            if (!index.getCorrectAnswer().equals(index.getOption2())) {
+                incorrectAnswer.add(index.getOption2());
+            }
+            if (!index.getCorrectAnswer().equals(index.getOption3())) {
+                incorrectAnswer.add(index.getOption3());
+            }
+            subQuestionDto.setIncorrect_answers(
+                    incorrectAnswer
+            );
+            subQuestionDtos.add(subQuestionDto);
+        }
+        questions.setResults(subQuestionDtos);
+        return questions;
     }
 }
