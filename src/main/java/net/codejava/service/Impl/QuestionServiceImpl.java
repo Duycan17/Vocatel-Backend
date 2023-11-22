@@ -58,12 +58,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public QuestionResponseDTO getAllQuestion(Long quizId) {
-        List<Question> temp = questionRepository.findAll();
-        for (Question index : temp) {
-            if (!index.getQuizId().getId().equals(quizId)) {
-                temp.remove(index);
-            }
-        }
+        List<Question> temp;
+        temp = questionRepository.findAllByQuizId(quizRepository.findById(quizId));
         QuestionResponseDTO questions = new QuestionResponseDTO();
         questions.setResponseCode(0);
         List<subQuestionDto> subQuestionDtos = null;
