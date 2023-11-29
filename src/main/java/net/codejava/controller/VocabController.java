@@ -45,7 +45,7 @@ public class VocabController {
         return ResponseEntity.ok(savedVocabulary);
     }
 
-    @PostMapping("remember")
+    @PostMapping("/remember")
     public ResponseEntity<Vocabulary> changeStatus(@RequestParam Long id) {
         Vocabulary vocabulary = vocabService.changeStatus(id);
         if (vocabulary != null) {

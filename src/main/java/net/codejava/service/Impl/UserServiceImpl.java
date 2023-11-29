@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     public User save(User user) {
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role(1));
+        roles.add(new Role(2));
         user.setRoles(roles);
         String rawPassword = user.getPassword();
         String encodedPassword = passwordEncoder.encode(rawPassword);

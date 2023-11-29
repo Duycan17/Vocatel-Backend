@@ -20,19 +20,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("/password")
+    @PatchMapping("/password")
     public ResponseEntity<User> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO, Principal principal) {
         User user = userService.changePassword(changePasswordDTO.getOldPassword(), changePasswordDTO.getPassword(), principal);
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping("/avatar")
+    @PatchMapping("/avatar")
     public ResponseEntity<User> changeAvatar(@RequestBody ChangeAvatarDTO changeAvatarDTO, Principal principal) {
         // Implementation
         return ResponseEntity.ok(userService.changeAvatar(changeAvatarDTO.getUrl(), principal));
     }
 
-    @PutMapping("/pro")
+    @PatchMapping("/pro")
     public ResponseEntity<User> changePro(@RequestBody ChangeProDTO changeProDTO) {
         return ResponseEntity.ok(userService.changePro(changeProDTO.getId()));
     }
