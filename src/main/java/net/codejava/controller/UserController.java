@@ -15,33 +15,33 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@RolesAllowed("USER")
+
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @RolesAllowed("USER")
     @PatchMapping("/password")
     public ResponseEntity<User> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO, Principal principal) {
         User user = userService.changePassword(changePasswordDTO.getOldPassword(), changePasswordDTO.getPassword(), principal);
         return ResponseEntity.ok(user);
     }
-
+    @RolesAllowed("USER")
     @PatchMapping("/avatar")
     public ResponseEntity<User> changeAvatar(@RequestBody ChangeAvatarDTO changeAvatarDTO, Principal principal) {
         // Implementation
         return ResponseEntity.ok(userService.changeAvatar(changeAvatarDTO.getUrl(), principal));
     }
-
+    @RolesAllowed("ADMIN")
     @PatchMapping("/pro")
-    public ResponseEntity<User> changePro(@RequestBody ChangeProDTO changeProDTO) {
-        return ResponseEntity.ok(userService.changePro(changeProDTO.getId()));
+    public ResponseEntity<User> changePro(@RequestParam("id") Long userId) {
+        return ResponseEntity.ok(userService.changePro(userId));
     }
-
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUser() {
-        List<User> users = userService.getAllUser();
-        return ResponseEntity.ok(users);
-    }
+//
+//    @GetMapping
+//    public ResponseEntity<List<User>> getAllUser() {
+//        List<User> users = userService.getAllUser();
+//        return ResponseEntity.ok(users);
+//    }
 
 
 }
