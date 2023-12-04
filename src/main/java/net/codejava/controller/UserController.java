@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @RolesAllowed("USER")
+@CrossOrigin
 public class UserController {
     @Autowired
     private UserService userService;
@@ -28,7 +29,6 @@ public class UserController {
 
     @PatchMapping("/avatar")
     public ResponseEntity<User> changeAvatar(@RequestBody ChangeAvatarDTO changeAvatarDTO, Principal principal) {
-        // Implementation
         return ResponseEntity.ok(userService.changeAvatar(changeAvatarDTO.getUrl(), principal));
     }
 

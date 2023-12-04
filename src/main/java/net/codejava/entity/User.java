@@ -35,8 +35,10 @@ public class User implements UserDetails {
     @JsonIgnore
     private String password;
 
-    @Column(nullable = true)
-    private String avatarUrl;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] avatarUrl;
 
     @Column(nullable = false)
     private boolean isPro = false;
