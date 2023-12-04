@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -37,12 +38,13 @@ public class UserController {
     public ResponseEntity<User> changePro(@RequestParam("id") Long userId) {
         return ResponseEntity.ok(userService.changePro(userId));
     }
-//
-//    @GetMapping
-//    public ResponseEntity<List<User>> getAllUser() {
-//        List<User> users = userService.getAllUser();
-//        return ResponseEntity.ok(users);
-//    }
+
+    @RolesAllowed("ADMIN")
+    @GetMapping()
+    public ResponseEntity<Object> getAllUser() {
+        List<User> users = userService.getAllUser();
+        return ResponseEntity.ok(users);
+    }
 
 
 }
