@@ -36,12 +36,12 @@ public class UserController {
     public ResponseEntity<User> changePro(@RequestParam("id") Long userId) {
         return ResponseEntity.ok(userService.changePro(userId));
     }
-//
-//    @GetMapping
-//    public ResponseEntity<List<User>> getAllUser() {
-//        List<User> users = userService.getAllUser();
-//        return ResponseEntity.ok(users);
-//    }
+    @RolesAllowed("ADMIN")
+    @GetMapping()
+    public ResponseEntity<List<User>> getAllUser() {
+        List<User> users = userService.getAllUser();
+        return ResponseEntity.ok(users);
+    }
 
 
 }
