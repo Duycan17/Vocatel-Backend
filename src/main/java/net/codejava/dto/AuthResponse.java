@@ -13,13 +13,8 @@ public class AuthResponse {
     private String accessToken;
     private String role;
     private String username;
+    private boolean isPro;
 
-
-    public AuthResponse(String email, String accessToken, String role) {
-        this.email = email;
-        this.accessToken = accessToken;
-        this.role = role;
-    }
 
     public String getEmail() {
         return email;

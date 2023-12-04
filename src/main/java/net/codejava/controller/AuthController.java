@@ -61,7 +61,7 @@ public class AuthController {
 
             User user = (User) authentication.getPrincipal();
             String accessToken = jwtUtil.generateAccessToken(user);
-            AuthResponse response = new AuthResponse(user.getEmail(), accessToken, user.getRoles().toString(), user.getFullname());
+            AuthResponse response = new AuthResponse(user.getEmail(), accessToken, user.getRoles().toString(), user.getFullname(), user.getPro());
 
             return ResponseEntity.ok().body(response);
 

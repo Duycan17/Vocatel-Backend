@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     public User save(User user) {
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role(2));
+        roles.add(new Role(1));
         user.setRoles(roles);
         String rawPassword = user.getPassword();
         String encodedPassword = passwordEncoder.encode(rawPassword);
@@ -59,7 +60,8 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = repo.findByEmail(email);
         if (user.isPresent()) {
             User existingUser = user.get();
-            existingUser.setAvatarUrl(url);
+            byte[] avatarBytes = url.getBytes(StandardCharsets.UTF_8); // Convert String to byte[]
+            existingUser.setAvatarUrl(avatarBytes);
             return repo.save(existingUser);
         } else {
             throw new NoSuchElementException("User not found with email: " + email);
