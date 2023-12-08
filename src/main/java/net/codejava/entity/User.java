@@ -1,5 +1,6 @@
 package net.codejava.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
@@ -32,7 +33,7 @@ public class User implements UserDetails {
 
     @Column(nullable = false, length = 64)
     @Length(min = 5, max = 64)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Lob
@@ -79,6 +80,7 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

@@ -23,4 +23,5 @@ public interface UserService {
 
     List<Vocabulary> findVocabByUser(Principal principal);
 
+    Boolean checkPro(Principal principal);
 }

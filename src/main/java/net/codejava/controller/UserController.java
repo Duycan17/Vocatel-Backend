@@ -39,6 +39,12 @@ public class UserController {
         return ResponseEntity.ok(userService.changePro(userId));
     }
 
+    @RolesAllowed(("USER"))
+    @GetMapping("/isPro")
+    public ResponseEntity<Boolean> isPro(Principal principal) {
+        return ResponseEntity.ok(userService.checkPro(principal));
+    }
+
     @RolesAllowed("ADMIN")
     @GetMapping()
     public ResponseEntity<Object> getAllUser() {

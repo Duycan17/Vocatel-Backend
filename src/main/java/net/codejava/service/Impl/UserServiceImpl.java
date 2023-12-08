@@ -112,4 +112,11 @@ public class UserServiceImpl implements UserService {
         return user.getVocabularies().stream().collect(Collectors.toList());
     }
 
+    @Override
+    public Boolean checkPro(Principal principal) {
+        String email = principal.getName();
+        User user = this.findUserByEmail(email);
+        return user.getPro();
+    }
+
 }
