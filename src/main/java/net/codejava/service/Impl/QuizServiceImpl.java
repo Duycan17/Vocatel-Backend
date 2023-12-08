@@ -2,14 +2,15 @@ package net.codejava.service.Impl;
 
 import net.codejava.config.ModelMapperConfig;
 import net.codejava.dto.QuizDto;
-import net.codejava.entity.Enrollment;
 import net.codejava.entity.Quiz;
+import net.codejava.entity.User;
 import net.codejava.repository.QuizRepository;
 import net.codejava.service.QuizService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,5 +47,10 @@ public class QuizServiceImpl implements QuizService {
             quiz = q.get();
         }
         return quiz;
+    }
+
+    @Override
+    public List<Quiz> getAllQuiz() {
+       return quizRepository.findAll();
     }
 }

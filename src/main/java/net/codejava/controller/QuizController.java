@@ -2,17 +2,19 @@ package net.codejava.controller;
 
 import net.codejava.dto.QuizDto;
 import net.codejava.entity.Quiz;
+import net.codejava.entity.User;
 import net.codejava.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
+import java.util.List;
 
 @RestController
 @RequestMapping("/quiz")
+
 public class QuizController {
     @Autowired
     private QuizService quizService;
@@ -22,5 +24,10 @@ public class QuizController {
         Quiz createdQuiz = quizService.createQuiz(quizDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdQuiz);
     }
-
+    @RolesAllowed("ADMIN")
+    @GetMapping()
+    public ResponseEntity<List<Quiz>> getAllQuiz() {
+        List<Quiz> quizzes = quizService.getAllQuiz();
+        return ResponseEntity.ok(quizzes);
+    }
 }
