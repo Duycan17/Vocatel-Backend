@@ -29,11 +29,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             enrollment.setUser(user);
+            enrollment.setUserId(enrollmentDto.getUserId());
         }
         Optional<Quiz> quizOptional = quizRepository.findById(enrollmentDto.getQuizId());
         if (quizOptional.isPresent()) {
             Quiz quiz = quizOptional.get();
             enrollment.setQuiz(quiz);
+            enrollment.setQuizId(enrollmentDto.getQuizId());
         }
         enrollment.setScore(enrollmentDto.getScore());
         return enrollmentRepository.save(enrollment);
