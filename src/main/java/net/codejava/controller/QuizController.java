@@ -23,6 +23,12 @@ public class QuizController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdQuiz);
     }
 
+    @GetMapping("id")
+    public ResponseEntity<Quiz> getQuizById(@RequestParam() Long id) {
+        System.out.println(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(quizService.getQuiz(id));
+    }
+
     @GetMapping()
     public ResponseEntity<List<Quiz>> getAllQuiz() {
         List<Quiz> quizzes = quizService.getAllQuiz();

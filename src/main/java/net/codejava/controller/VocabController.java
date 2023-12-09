@@ -35,6 +35,16 @@ public class VocabController {
         }
     }
 
+    @GetMapping("/remember=false")
+    public ResponseEntity<List<Vocabulary>> getAllVocabNotRemember(Principal principal) {
+        List<Vocabulary> vocabularies = userService.findVocabNotRememberByUser(principal);
+        if (vocabularies.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(vocabularies, HttpStatus.OK);
+        }
+    }
+
     @PostMapping()
     public ResponseEntity<Vocabulary> save(Authentication authentication, @RequestBody VocabDto vocabDto) {
         authentication = SecurityContextHolder.getContext().getAuthentication();

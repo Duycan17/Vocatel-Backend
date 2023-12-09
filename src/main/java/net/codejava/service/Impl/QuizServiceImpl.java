@@ -3,7 +3,6 @@ package net.codejava.service.Impl;
 import net.codejava.config.ModelMapperConfig;
 import net.codejava.dto.QuizDto;
 import net.codejava.entity.Quiz;
-import net.codejava.entity.User;
 import net.codejava.repository.QuizRepository;
 import net.codejava.service.QuizService;
 import org.modelmapper.ModelMapper;
@@ -43,7 +42,7 @@ public class QuizServiceImpl implements QuizService {
     public Quiz findQuizById(Long id) {
         Optional<Quiz> q = quizRepository.findById(id);
         Quiz quiz = null;
-        if (q.isPresent()){
+        if (q.isPresent()) {
             quiz = q.get();
         }
         return quiz;
@@ -51,6 +50,12 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> getAllQuiz() {
-       return quizRepository.findAll();
+        return quizRepository.findAll();
+    }
+
+    @Override
+    public Quiz getQuiz(Long id) {
+        Optional quiz = quizRepository.findById(id);
+        return (Quiz) quiz.get();
     }
 }

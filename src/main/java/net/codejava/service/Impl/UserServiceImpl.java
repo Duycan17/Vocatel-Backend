@@ -119,4 +119,14 @@ public class UserServiceImpl implements UserService {
         return user.getPro();
     }
 
+    @Override
+    public List<Vocabulary> findVocabNotRememberByUser(Principal principal) {
+        String email = principal.getName();
+        User user = this.findUserByEmail(email);
+        List<Vocabulary> notRememberedVocabularies = user.getVocabularies().stream()
+                .filter(vocabulary -> !vocabulary.isRemember())
+                .collect(Collectors.toList());
+        return notRememberedVocabularies;
+    }
+
 }
