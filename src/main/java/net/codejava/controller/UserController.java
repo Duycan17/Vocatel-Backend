@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@RolesAllowed("USER")
+
 @CrossOrigin
 public class UserController {
     @Autowired
@@ -51,7 +51,6 @@ public class UserController {
         List<User> users = userService.getAllUser();
         return ResponseEntity.ok(users);
     }
-
 
 }
 
