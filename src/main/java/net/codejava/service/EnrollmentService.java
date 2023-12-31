@@ -5,4 +5,5 @@ import net.codejava.entity.Enrollment;
 
 public interface EnrollmentService {
     Enrollment save(EnrollmentDto enrollmentDto);
+
 }
