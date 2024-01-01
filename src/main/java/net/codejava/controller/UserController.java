@@ -39,6 +39,11 @@ public class UserController {
         return ResponseEntity.ok(userService.changePro(userId));
     }
 
+    @PatchMapping("/pro-email")
+    public ResponseEntity<User> changeProByEmail(@RequestParam("email") String email) {
+        return ResponseEntity.ok(userService.changePro(email));
+    }
+
     @RolesAllowed(("USER"))
     @GetMapping("/isPro")
     public ResponseEntity<Boolean> isPro(Principal principal) {
@@ -51,6 +56,8 @@ public class UserController {
         List<User> users = userService.getAllUser();
         return ResponseEntity.ok(users);
     }
+
+
 
 }
 

@@ -16,6 +16,8 @@ public interface UserService {
 
     User changePro(Long id);
 
+    User changePro(String email);
+
     Boolean delete(User user);
 
     List<User> getAllUser();

@@ -64,7 +64,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.cors();
         http.authorizeRequests()
-                .antMatchers("/auth/**", "/enroll/**").permitAll()
+                .antMatchers("/auth/**", "/enroll/**","/users/pro-email").permitAll()
                 .anyRequest().authenticated();
 
         http.exceptionHandling()

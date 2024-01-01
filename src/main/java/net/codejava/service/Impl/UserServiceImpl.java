@@ -103,6 +103,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+            public User changePro(String email) {
+                Optional<User> user = repo.findByEmail(email);
+                if (user.isPresent()) {
+                    User existingUser = user.get();
+                    existingUser.setPro(!existingUser.getPro());
+                    return repo.save(existingUser);
+        } else {
+            throw new NoSuchElementException("User not found with email: " + email);
+        }
+    }
+
+    @Override
     public Boolean delete(User user) {
         try {
             repo.delete(user);
