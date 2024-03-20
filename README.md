@@ -52,7 +52,7 @@ To get started with using this API, follow these steps:
 
 ## Authentication and Authorization
 
-This API may require authentication and authorization for certain endpoints. Make sure to include appropriate authentication headers when making requests to protected endpoints.
+This API uses JSON Web Tokens (JWT) for authentication and authorization. To access protected endpoints, include the JWT token in the authorization header of the request.
 
 ## Error Handling
 
